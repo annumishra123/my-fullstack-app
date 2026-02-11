@@ -5,6 +5,19 @@ import React, { useState } from 'react'
 import type { Workspace } from '@/types'
 import {Navigate, useNavigate, Outlet } from 'react-router'
 import { SidebarComponent } from '@/components/ui/layout/sidebar-component'
+import { CreateWorkspace } from '@/components/ui/workspace/create-workspace'
+import { fetchData } from '@/lib/fetch-util'
+
+
+export const clientLoader = async()=>{
+    try {
+      const [workspaces] = await Promise.all([fetchData("/workspaces")])
+      return {workspaces}
+    } catch (error) {
+      console.log(error);
+      
+    }
+}
 
 const DashboardLayout = () => {
   const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false)
@@ -42,8 +55,10 @@ const DashboardLayout = () => {
           </div>
         </main>
       </div>
-
-      
+      <CreateWorkspace
+      isCreatingWorkspace={isCreatingWorkspace}
+      setIsCreatingWorkspace={setIsCreatingWorkspace}
+      />
     </div>
   )
 }
