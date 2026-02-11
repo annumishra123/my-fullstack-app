@@ -63,7 +63,7 @@ export const CreateWorkspace = ({
     mutate(data, {
       onSuccess: (data: any) => {
         form.reset();
-        setIsCreatingWorkspace(true);
+        setIsCreatingWorkspace(false);
         toast.success("Workspace created successfully");
         navigate(`/workspaces/${data._id}`);
       },

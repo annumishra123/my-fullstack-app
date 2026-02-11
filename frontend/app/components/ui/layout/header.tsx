@@ -1,4 +1,3 @@
-
 import { useAuth } from "@/provider/auth-context";
 import type { Workspace } from "@/types";
 import { Button } from "@/components/ui/button"
@@ -16,7 +15,6 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Link, useLoaderData, useLocation, useNavigate } from "react-router";
 import { WorkspaceAvatar } from "../workspace/workspace-avatar";
-
 interface HeaderProps {
   onWorkspaceSelected: (workspace: Workspace) => void;
   selectedWorkspace: Workspace | null;
@@ -28,12 +26,14 @@ export const Header = ({
   selectedWorkspace,
   onCreateWorkspace,
 }: HeaderProps) => {
-  
-  const { user, logout } = useAuth();
-  const workspaces = []
-  
+  const navigate = useNavigate();
+  const workspaces =[]
 
   
+  const { user, logout } = useAuth();
+  
+  
+
   return (
     <div className="bg-background sticky top-0 z-40 border-b">
       <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
@@ -61,7 +61,17 @@ export const Header = ({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              
+              {workspaces.map((ws) => (
+                <DropdownMenuItem
+                  key={ws._id}
+                  onClick={() => onWorkspaceSelected(ws)}
+                >
+                  {ws.color && (
+                    <WorkspaceAvatar color={ws.color} name={ws.name} />
+                  )}
+                  <span className="ml-2">{ws.name}</span>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuGroup>
 
             <DropdownMenuGroup>
