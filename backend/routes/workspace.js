@@ -8,7 +8,7 @@ import authMiddleware from '../middleware/auth-middleware.js'
 const router =  express.Router()
 
 router.post('/createWorkspace', authMiddleware, validateRequest({ body: workspaceSchema,}), createWorkspace)
-router.get('/', authMiddleware, validateRequest({ body: workspaceSchema,}), getWorkspaces)
+router.get('/', authMiddleware, getWorkspaces)
 
 
 export default router
