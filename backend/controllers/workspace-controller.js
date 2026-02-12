@@ -5,7 +5,7 @@ import { sendEmail } from "../libs/send-email.js";
 const createWorkspace = async (req, res) => {
   try {
     const { name, description, color } = req.body;
-
+    
     const workspace = await Workspace.create({
       name,
       description,
@@ -30,7 +30,8 @@ const createWorkspace = async (req, res) => {
 };
 
 
-const getWorkspaces = async (req, res) => {
+const getWorkspaces = async (req, res) => { 
+
   try {
     const workspace = await Workspace.find({
       "members.user": req.user._id
