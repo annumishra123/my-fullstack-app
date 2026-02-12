@@ -1,11 +1,12 @@
 import Workspace from "../models/workspace-models.js";
+import Project from "../models/project-models.js";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../libs/send-email.js";
 
 const createWorkspace = async (req, res) => {
   try {
     const { name, description, color } = req.body;
-    
+
     const workspace = await Workspace.create({
       name,
       description,
@@ -30,14 +31,14 @@ const createWorkspace = async (req, res) => {
 };
 
 
-const getWorkspaces = async (req, res) => { 
+const getWorkspaces = async (req, res) => {
 
   try {
     const workspace = await Workspace.find({
       "members.user": req.user._id
-    }).sort({createdAt: -1})
-    
-     res.status(201).json(workspace);
+    }).sort({ createdAt: -1 })
+
+    res.status(201).json(workspace);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -48,9 +49,75 @@ const getWorkspaces = async (req, res) => {
 
 
 
+const getWorkspaceDetails = async (req, res) => {
+
+  try {
+    const { workspaceId } = req.params;
+    const workspace = await Workspace.findOne({
+      _id: workspaceId,
+      "members.user": req.user._id
+    }).populate(
+      "members.user", "name email profilePicture"
+    )
+
+
+    if (!workspace) {
+      return res.status(404).json({
+        message: "Workspace not found",
+      });
+    }
+    res.status(201).json(workspace);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+
+
+const getWorkspaceProjects = async (req, res) => {
+
+  try {
+    const { workspaceId } = req.params;
+    const workspace = await Workspace.findOne({
+      _id: workspaceId,
+      "members.user": req.user._id
+    }).populate(
+      "members.user", "name email profilePicture"
+    )
+
+
+    if (!workspace) {
+      return res.status(404).json({
+        message: "Workspace not found",
+      });
+    }
+
+    const projects = await Project.find({
+      workspace: workspaceId,
+      isArchived: false,
+      members: { $in: [req.user._id] }
+
+    })
+      .populate("task", "status")
+      .sort({ createdAt: -1 })
+
+    res.status(201).json({ projects, workspace });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
 
 
 export {
   createWorkspace,
-  getWorkspaces
+  getWorkspaces,
+  getWorkspaceDetails,
+  getWorkspaceProjects
 };
