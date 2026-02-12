@@ -27,13 +27,11 @@ export const Header = ({
   onCreateWorkspace,
 }: HeaderProps) => {
   const navigate = useNavigate();
-  const workspaces =[]
-
-  
+  // const workspaces =[]
   const { user, logout } = useAuth();
+  const {workspace} = useLoaderData() as {workspace: Workspace[]} 
+  console.log(workspace);
   
-  
-
   return (
     <div className="bg-background sticky top-0 z-40 border-b">
       <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
@@ -61,7 +59,7 @@ export const Header = ({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              {workspaces.map((ws) => (
+              {workspace?.map((ws) => (
                 <DropdownMenuItem
                   key={ws._id}
                   onClick={() => onWorkspaceSelected(ws)}

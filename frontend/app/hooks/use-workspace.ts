@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useCreateWorkspace = () => {
   return useMutation({
-    mutationFn: async (data: WorkspaceForm) => posData("/workspaces/createWorkspace", data),
+    mutationFn: async (data: WorkspaceForm) => posData("/workspace/createWorkspace", data),
   });
 };
 
