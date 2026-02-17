@@ -1,4 +1,4 @@
-name: Fullstack CI Pipeline
+name: Fullstack CI
 
 on:
   push:
@@ -8,36 +8,32 @@ jobs:
   backend:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: backend
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - name: Install Backend
-        run: |
-          cd backend
-          npm install
+      - run: npm install
 
   frontend:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - name: Install Frontend
-        run: |
-          cd frontend
-          npm install
-
-      - name: Build Frontend
-        run: |
-          cd frontend
-          npm run build
+      - run: npm install
+      - run: npm run build
