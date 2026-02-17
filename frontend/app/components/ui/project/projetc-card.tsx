@@ -8,8 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-// import { getTaskStatusColor } from "@/lib";
-// import { Progress } from "../ui/progress";
+import { getTaskStatusColor } from "@/lib/index";
+import { Progress } from "@/components/ui/progress";
 import { format } from "date-fns";
 import { CalendarDays } from "lucide-react";
 
@@ -33,7 +33,7 @@ export const ProjectCard = ({
             <span
               className={cn(
                 "text-xs rounded-full",
-                // getTaskStatusColor(project.status)
+                getTaskStatusColor(project.status)
               )}
             >
               {project.status}
@@ -51,7 +51,7 @@ export const ProjectCard = ({
                 <span>{progress}%</span>
               </div>
 
-              {/* <Progress value={progress} className="h-2" /> */}
+              <Progress value={progress} className="h-2" />
             </div>
 
             <div className="flex items-center justify-between">
