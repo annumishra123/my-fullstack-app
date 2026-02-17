@@ -4,7 +4,21 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useCreateWorkspace = () => {
   return useMutation({
-    mutationFn: async (data: WorkspaceForm) => posData("/workspace/createWorkspace", data),
+    mutationFn: async (data: WorkspaceForm) => posData("/workspaces/createWorkspace", data),
   });
 };
 
+export const useGetWorkspacesQuery = () => {
+  return useQuery({
+    queryKey: ["workspace"],
+    queryFn: async () => fetchData("/workspaces"),
+  });
+};
+
+
+export const useGetWorkspaceQuery = (workspaceId: string) => {
+  return useQuery({
+    queryKey: ["workspaces", workspaceId],
+    queryFn: async () => fetchData(`/workspaces/${workspaceId}/projects`),
+  });
+};
