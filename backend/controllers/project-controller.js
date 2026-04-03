@@ -126,3 +126,6 @@ const getProjectTasks = async (req, res) => {
 
 
 export { createProject, getProjectDetails, getProjectTasks};
+
+
+// https://www.youtube.com/watch?v=F8w0x1Otg-0 POS System 

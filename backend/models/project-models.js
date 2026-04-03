@@ -45,3 +45,9 @@ const projectSchema = new Schema(
 const Project = mongoose.model("Project", projectSchema);
 
 export default Project;
+
+
+// 382AkMyHGYNYK64Q
+// anurag786332_db_user
+
+// mongodb+srv://anurag786332_db_user:<db_password>@cluster0.hbjbil9.mongodb.net/?appName=Cluster0

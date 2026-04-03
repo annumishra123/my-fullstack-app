@@ -1,6 +1,6 @@
 import { BackButton } from "@/components/ui/back-button";
 import { Loader } from "@/components/ui/loader";
-// import { CreateTaskDialog } from "@/components/task/create-task-dialog";
+import { CreateTaskDialog } from "@/components/ui/task/create-task-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -172,14 +172,14 @@ const ProjectDetails = () => {
           </TabsContent>
         </Tabs>
       </div>
-
+          
       {/* create    task dialog */}
-      {/* <CreateTaskDialog
+      <CreateTaskDialog
         open={isCreateTask}
         onOpenChange={setIsCreateTask}
         projectId={projectId!}
         projectMembers={project.members as any}
-      /> */}
+      />
     </div>
   );
 };

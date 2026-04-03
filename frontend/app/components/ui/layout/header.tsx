@@ -1,7 +1,7 @@
+
 import { useAuth } from "@/provider/auth-context";
 import type { Workspace } from "@/types";
-import { Button } from "@/components/ui/button"
-
+import { Button } from "@/components/ui/button";
 import { Bell, PlusCircle } from "lucide-react";
 import {
   DropdownMenu,
@@ -11,10 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
   DropdownMenuGroup,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Link, useLoaderData, useLocation, useNavigate } from "react-router";
 import { WorkspaceAvatar } from "../workspace/workspace-avatar";
+
 interface HeaderProps {
   onWorkspaceSelected: (workspace: Workspace) => void;
   selectedWorkspace: Workspace | null;
@@ -27,11 +28,24 @@ export const Header = ({
   onCreateWorkspace,
 }: HeaderProps) => {
   const navigate = useNavigate();
-  // const workspaces =[]
+
   const { user, logout } = useAuth();
-  const {workspace} = useLoaderData() as {workspace: Workspace[]} 
-  console.log(workspace);
-  
+  const { workspaces } = useLoaderData() as { workspaces: Workspace[] };
+  const isOnWorkspacePage = useLocation().pathname.includes("/workspace");
+
+  const handleOnClick = (workspace: Workspace) => {
+    onWorkspaceSelected(workspace);
+    const location = window.location;
+
+    if (isOnWorkspacePage) {
+      navigate(`/workspaces/${workspace._id}`);
+    } else {
+      const basePath = location.pathname;
+
+      navigate(`${basePath}?workspaceId=${workspace._id}`);
+    }
+  };
+
   return (
     <div className="bg-background sticky top-0 z-40 border-b">
       <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
@@ -59,10 +73,10 @@ export const Header = ({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              {workspace?.map((ws) => (
+              {workspaces.map((ws) => (
                 <DropdownMenuItem
                   key={ws._id}
-                  onClick={() => onWorkspaceSelected(ws)}
+                  onClick={() => handleOnClick(ws)}
                 >
                   {ws.color && (
                     <WorkspaceAvatar color={ws.color} name={ws.name} />
